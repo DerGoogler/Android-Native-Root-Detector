@@ -1,5 +1,5 @@
 # Android-Native-Root-Detector
-A tool for detecting root on android
+A tool to detect root on android
 
 [![Stars](https://img.shields.io/github/stars/reveny/Android-Native-Root-Detector?label=Stars)](https://github.com/reveny)
 [![Release](https://img.shields.io/github/v/release/reveny/Android-Native-Root-Detector?label=Release&logo=github)](https://github.com/reveny/Android-Native-Root-Detector/releases/latest)

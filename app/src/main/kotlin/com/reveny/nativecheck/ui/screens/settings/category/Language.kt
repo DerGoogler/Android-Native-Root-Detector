@@ -37,7 +37,7 @@ internal fun Language(
 
     Box {
         SettingNormalItem(
-            title = stringResource(R.string.language),
+            title = stringResource(R.string.pref_language),
             icon = TablerIcons.Outline.Language,
             description = Languages.find { it.value == language }?.text?.let { stringResource(it) },
             onClick = { expanded = true }
@@ -72,8 +72,10 @@ private enum class LanguageItem(
     ENGLISH(Language.ENGLISH, Locale("en"), R.string.en),
     ARABIC(Language.ARABIC, Locale("ar"), R.string.ar),
     GERMAN(Language.GERMAN, Locale("de"), R.string.de),
+    GREEK(Language.GREEK, Locale("el"), R.string.el),
     SPANISH(Language.SPANISH, Locale("es"), R.string.es),
     INDONESIAN(Language.INDONESIAN, Locale("id"), R.string.id),
+    JAPANESE(Language.JAPANESE, Locale("ja"), R.string.ja),
     POLISH(Language.POLISH, Locale("pl"), R.string.pl),
     PORTUGUESE_BRAZIL(Language.PORTUGUESE_BRAZIL, Locale("pt", "BR"), R.string.pt_br),
     RUSSIAN(Language.RUSSIAN, Locale("ru"), R.string.ru),
@@ -81,4 +83,6 @@ private enum class LanguageItem(
     TURKISH_TURKEY(Language.TURKISH_TURKEY, Locale("tr", "TR"), R.string.tr_tr),
     VIETNAMESE(Language.VIETNAMESE, Locale("vi"), R.string.vi),
     CHINESE_SIMPLIFIED(Language.CHINESE_SIMPLIFIED, Locale("zh", "CN"), R.string.zh_cn),
+    CHINESE_TRADITIONAL(Language.CHINESE_TRADITIONAL, Locale("zh", "TW"), R.string.zh_tw),
+    BULGARIAN(Language.BULGARIAN, Locale("bg"), R.string.bg) 
 }

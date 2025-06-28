@@ -1,35 +1,41 @@
 package com.reveny.nativecheck.ui.activity
 
-import android.app.Activity
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.reveny.nativecheck.R
+import com.reveny.nativecheck.app.UpdateChecker
 import com.reveny.nativecheck.repository.AppSettingsRepository
 import com.reveny.nativecheck.ui.providable.LocalAppSettings
 import com.reveny.nativecheck.ui.theme.AppTheme
-import com.reveny.nativecheck.app.UpdateChecker
 import com.reveny.nativecheck.viewmodel.MainViewModel
-import com.reveny.nativecheck.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,10 +45,13 @@ class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
+
         mainViewModel.initializeData(this)
 
         val packageManager = packageManager
@@ -56,7 +65,10 @@ class MainActivity : AppCompatActivity() {
         val updateChecker = UpdateChecker(this)
 
         setContent {
-            val userPreferences by appSettingsRepository.data.collectAsStateWithLifecycle(initialValue = null, lifecycle = lifecycle)
+            val userPreferences by appSettingsRepository.data.collectAsStateWithLifecycle(
+                initialValue = null,
+                lifecycle = lifecycle
+            )
 
             userPreferences ?: return@setContent
 
@@ -138,7 +150,12 @@ fun UpdateDialog(
         title = { Text(text = stringResource(R.string.update_available)) },
         text = {
             Column {
-                Text(text = String.format(stringResource(R.string.version_is_available), latestVersion))
+                Text(
+                    text = String.format(
+                        stringResource(R.string.version_is_available),
+                        latestVersion
+                    )
+                )
                 if (isDownloading) {
                     Spacer(modifier = Modifier.padding(top = 16.dp))
                     LinearProgressIndicator(
